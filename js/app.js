@@ -1,5 +1,16 @@
 var score = 0;
 var hscore = 0;
+var gemscore = 0;
+//Gems for the player to collect
+var Gems = function (x,y) {
+  this.x = x;
+  this.y = y;
+  this.sprite = 'images/Gem_Orange.png' ;
+}
+//render method
+Gems.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 // Enemies our player must avoid
 var Enemy = function(move, x, y) {
     // Variables applied to each of our instances go here,
@@ -34,9 +45,10 @@ Enemy.prototype.update = function(dt) {
           player.y = 380;
           if (score >= hscore) {
           document.querySelector('.hscore').innerText = score;
-          hscore = score;
+          hscore = score + ' / ' + gemscore;
           }
           score = 0;
+          gemscore = 0;
           document.querySelector('.score').innerText = score;
         }
 };
@@ -46,15 +58,7 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-var gems = function (x,y) {
-  this.x = x;
-  this.y = y;
-  this.sprite = 'images/Gems/Star.png';
-}
 
-gems.prototype.render = function() {
-    ctx.drawImage(this.x, this.y);
-};
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -64,7 +68,7 @@ var Player = function (move, x, y) {
   this.x = x;
   this.y = y;
   // The image/sprite for our player
-  this.sprite = 'images/char-boy.png';
+  this.sprite = 'images/char-horn-girl.png';
 }
 
 Player.prototype.update = function() {
@@ -76,6 +80,7 @@ Player.prototype.update = function() {
   if(this.y < 0) {
     this.y = 380;
     this.x = 200;
+    //Updating the score
     score += 1;
     document.querySelector('.score').innerText = score;
   }
@@ -86,6 +91,15 @@ Player.prototype.update = function() {
     this.x = 0;
   }
 
+//collision detection for a gem
+if (this.x < gem.x + 40 &&
+    this.x + 30 > gem.x &&
+    this.y < gem.y + 30 &&
+    35 + player.y > gem.y)
+    {
+      gemscore += 1;
+      document.querySelector('.gems').innerText = gemscore;
+    }
 }
 
 Player.prototype.render = function() {
@@ -103,12 +117,12 @@ Player.prototype.handleInput = function(pressedKey) {
 // Place the player object in a variable called player
 var allEnemies = [];
 var spawnLines = [50, 130, 220];
-var gem = new gems(Math.floor((Math.random() * 201)) + 170, Math.floor((Math.random() * 171)) + 50);
+
 spawnLines.forEach(function(y) {
   var enemy = new Enemy(Math.floor((Math.random() * 401)) + 300, 0, y);
   allEnemies.push(enemy);
 })
-
+var gem = new Gems(Math.floor((Math.random() * 301)), Math.floor((Math.random() * 301)+100));
 var player = new Player(85, 200, 380);
 
 

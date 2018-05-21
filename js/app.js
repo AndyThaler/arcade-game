@@ -18,10 +18,12 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     this.x += this.move * dt;
 
+    //looping the enemies back to the start, when they reach the right corner
     if (this.x > 505) {
         this.x = -100;
         this.move = Math.floor((Math.random() * 401)) + 300;
 }
+  //Collision-Detection with tolerance
     if (player.x < this.x + 40 &&
         player.x + 30 > this.x &&
         player.y < this.y + 30 &&
@@ -48,9 +50,11 @@ var Player = function (move, x, y) {
 }
 
 Player.prototype.update = function() {
+  //limiting the player to the game field
   if(this.y > 380) {
     this.y = 380;
   }
+  //Reset Player-pos when reaching water
   if(this.y < 0) {
     this.y = 380;
     this.x = 200;
@@ -79,10 +83,12 @@ Player.prototype.handleInput = function(pressedKey) {
 // Place the player object in a variable called player
 var allEnemies = [];
 var spawnLines = [50, 130, 220];
+
 spawnLines.forEach(function(y) {
   var enemy = new Enemy(Math.floor((Math.random() * 401)) + 300, 0, y);
   allEnemies.push(enemy);
 })
+
 var player = new Player(85, 200, 380);
 
 

@@ -20,8 +20,15 @@ Enemy.prototype.update = function(dt) {
 
     if (this.x > 505) {
         this.x = -100;
-        this.move = Math.floor((Math.random() * 401)) + 100;
+        this.move = Math.floor((Math.random() * 401)) + 300;
 }
+    if (player.x < this.x + 40 &&
+        player.x + 30 > this.x &&
+        player.y < this.y + 30 &&
+        35 + player.y > this.y) {
+          player.x = 200;
+          player.y = 380;
+        }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -41,6 +48,20 @@ var Player = function (move, x, y) {
 }
 
 Player.prototype.update = function() {
+  if(this.y > 380) {
+    this.y = 380;
+  }
+  if(this.y < 0) {
+    this.y = 380;
+    this.x = 200;
+  }
+  if(this.x > 400) {
+    this.x = 400;
+  }
+  if(this.x < 0) {
+    this.x = 0;
+  }
+
 }
 
 Player.prototype.render = function() {
@@ -48,8 +69,8 @@ Player.prototype.render = function() {
 }
 
 Player.prototype.handleInput = function(pressedKey) {
-  if (pressedKey == 'left') player.x -= player.move;
-  if (pressedKey == 'right') player.x += player.move;
+  if (pressedKey == 'left') player.x -= (player.move +15);
+  if (pressedKey == 'right') player.x += (player.move +15);
   if (pressedKey == 'up') player.y -= player.move;
   if (pressedKey == 'down') player.y += player.move;
 }
@@ -57,12 +78,12 @@ Player.prototype.handleInput = function(pressedKey) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [];
-var spawnLines = [50, 140, 210];
+var spawnLines = [50, 130, 220];
 spawnLines.forEach(function(y) {
-  var enemy = new Enemy(Math.floor((Math.random() * 401)) + 100, 0, y);
+  var enemy = new Enemy(Math.floor((Math.random() * 401)) + 300, 0, y);
   allEnemies.push(enemy);
 })
-var player = new Player(95, 0, 400);
+var player = new Player(85, 200, 380);
 
 
 

@@ -17,6 +17,11 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += this.move * dt;
+
+    if (this.x > 505) {
+        this.x = -100;
+        this.move = Math.floor((Math.random() * 401)) + 100;
+}
 };
 
 // Draw the enemy on the screen, required method for game
@@ -52,9 +57,13 @@ Player.prototype.handleInput = function(pressedKey) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [];
+var spawnLines = [50, 140, 210];
+spawnLines.forEach(function(y) {
+  var enemy = new Enemy(Math.floor((Math.random() * 401)) + 100, 0, y);
+  allEnemies.push(enemy);
+})
 var player = new Player(95, 0, 400);
-var enemy = new Enemy(30, 0, 400);
-allEnemies.push(enemy);
+
 
 
 // This listens for key presses and sends the keys to your

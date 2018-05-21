@@ -1,3 +1,5 @@
+var score = 0;
+var hscore = 0;
 // Enemies our player must avoid
 var Enemy = function(move, x, y) {
     // Variables applied to each of our instances go here,
@@ -30,12 +32,28 @@ Enemy.prototype.update = function(dt) {
         35 + player.y > this.y) {
           player.x = 200;
           player.y = 380;
+          if (score >= hscore) {
+          document.querySelector('.hscore').innerText = score;
+          hscore = score;
+          }
+          score = 0;
+          document.querySelector('.score').innerText = score;
         }
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+var gems = function (x,y) {
+  this.x = x;
+  this.y = y;
+  this.sprite = 'images/Gems/Star.png';
+}
+
+gems.prototype.render = function() {
+    ctx.drawImage(this.x, this.y);
 };
 
 // Now write your own player class
@@ -58,6 +76,8 @@ Player.prototype.update = function() {
   if(this.y < 0) {
     this.y = 380;
     this.x = 200;
+    score += 1;
+    document.querySelector('.score').innerText = score;
   }
   if(this.x > 400) {
     this.x = 400;
@@ -83,7 +103,7 @@ Player.prototype.handleInput = function(pressedKey) {
 // Place the player object in a variable called player
 var allEnemies = [];
 var spawnLines = [50, 130, 220];
-
+var gem = new gems(Math.floor((Math.random() * 201)) + 170, Math.floor((Math.random() * 171)) + 50);
 spawnLines.forEach(function(y) {
   var enemy = new Enemy(Math.floor((Math.random() * 401)) + 300, 0, y);
   allEnemies.push(enemy);

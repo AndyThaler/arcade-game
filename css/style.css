@@ -1,9 +1,14 @@
 body {
     text-align: center;
+    background: #ffffff url('../images/geometry2.png');
 }
 p {
-  font-family: "Times New Roman", Times, serif;
-  color: blue;
-  font-size: 28px;
+  font-family:  Tahoma, Geneva, sans-serif;
+  color: grey;
+  font-size: 20px;
   font-weight: bold;
+}
+table {
+     margin-left:auto;
+     margin-right:auto;
 }
